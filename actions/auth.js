@@ -3,6 +3,22 @@ import { API } from '../config';
 import cookie from 'js-cookie';
 import Router from 'next/router';
 
+// preSignup action
+export const preSignup = (user) => {
+	return fetch(`${API}/pre-signup`, {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(user)
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((err) => console.log(`===>${err}`));
+};
+
 // Signup action
 export const signup = (user) => {
 	return fetch(`${API}/signup`, {
@@ -18,6 +34,8 @@ export const signup = (user) => {
 		})
 		.catch((err) => console.log(`====> ${err}`));
 };
+
+// Signin action
 
 export const signin = (user) => {
 	return fetch(`${API}/signin`, {
