@@ -21,7 +21,7 @@ export const handleResponse = (response) => {
 
 // preSignup action
 export const preSignup = (user) => {
-	return fetch(`${API}/pre-signup`, {
+	return fetch(`${API}/auth/pre-signup`, {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
@@ -37,7 +37,7 @@ export const preSignup = (user) => {
 
 // Signup action
 export const signup = (user) => {
-	return fetch(`${API}/signup`, {
+	return fetch(`${API}/auth/signup`, {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
@@ -54,7 +54,7 @@ export const signup = (user) => {
 // Signin action
 
 export const signin = (user) => {
-	return fetch(`${API}/signin`, {
+	return fetch(`${API}/auth/signin`, {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
@@ -73,7 +73,7 @@ export const signout = (next) => {
 	removeLocalStorage('user');
 	next();
 
-	return fetch(`${API}/signout`, {
+	return fetch(`${API}/auth/signout`, {
 		method: 'GET'
 	})
 		.then((response) => {
@@ -142,7 +142,7 @@ export const isAuth = () => {
 };
 
 export const forgotPassword = (email) => {
-	return fetch(`${API}/forgot-password`, {
+	return fetch(`${API}/auth/forgot-password`, {
 		method: 'PUT',
 		headers: {
 			Accept: 'application/json',
@@ -157,7 +157,7 @@ export const forgotPassword = (email) => {
 };
 
 export const resetPassword = (resetInfo) => {
-	return fetch(`${API}/reset-password`, {
+	return fetch(`${API}/auth/reset-password`, {
 		method: 'PUT',
 		headers: {
 			Accept: 'application/json',

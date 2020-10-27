@@ -31,6 +31,16 @@ const Header = (props) => {
 
 	const toggle = () => setIsOpen(!isOpen);
 
+	let dashboardLink = '';
+
+	if (isAuth() && isAuth().role === 1) {
+		dashboardLink = '/admin';
+	} else if (isAuth() && isAuth().role === 2) {
+		dashboardLink = '/client';
+	} else if (isAuth() && isAuth().role === 3) {
+		dashboardLink = '/freelancer';
+	}
+
 	return (
 		<React.Fragment>
 			<Navbar color="light" light expand="md">
@@ -60,7 +70,7 @@ const Header = (props) => {
 						{isAuth() && (
 							<React.Fragment>
 								<NavItem>
-									<Link href={isAuth().role === 2 ? '/client' : '/freelance'}>
+									<Link href={dashboardLink}>
 										<NavLink style={{ cursor: 'pointer' }}>{isAuth().name}'s Dashboard</NavLink>
 									</Link>
 								</NavItem>
@@ -75,7 +85,7 @@ const Header = (props) => {
 							</React.Fragment>
 						)}
 
-						{isAuth() &&
+						{/* {isAuth() &&
 						isAuth().role === 1 && (
 							<React.Fragment>
 								<NavItem>
@@ -92,7 +102,7 @@ const Header = (props) => {
 									</NavLink>
 								</NavItem>
 							</React.Fragment>
-						)}
+						)} */}
 					</Nav>
 				</Collapse>
 			</Navbar>
