@@ -3,6 +3,22 @@ import { API } from '../config';
 import cookie from 'js-cookie';
 import Router from 'next/router';
 
+// handle token expiry - we get status code 401 if token expires and user is unauthorized
+// to be use everywhere we need to check if user's token is still valid
+export const handleResponse = (response) => {
+	if (response.status === 401) {
+		signout(() => {
+			// we can also pass an object here
+			Router.push({
+				pathname: '/signin',
+				query: {
+					message: 'Your session has expired. Please signin'
+				}
+			});
+		});
+	}
+};
+
 // preSignup action
 export const preSignup = (user) => {
 	return fetch(`${API}/pre-signup`, {
@@ -123,4 +139,34 @@ export const isAuth = () => {
 			}
 		}
 	}
+};
+
+export const forgotPassword = (email) => {
+	return fetch(`${API}/forgot-password`, {
+		method: 'PUT',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(email)
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((err) => console.log(`====> ${err}`));
+};
+
+export const resetPassword = (resetInfo) => {
+	return fetch(`${API}/reset-password`, {
+		method: 'PUT',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(resetInfo)
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((err) => console.log(`====> ${err}`));
 };
