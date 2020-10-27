@@ -18,6 +18,7 @@ import {
 import '../node_modules/nprogress/nprogress.css';
 import NProgress from 'nprogress';
 import { APP_NAME } from '../config';
+import { signout, isAuth } from '../actions/auth';
 import Router from 'next/router';
 
 // For nprogress
@@ -41,18 +42,57 @@ const Header = (props) => {
 				<NavbarToggler onClick={toggle} />
 				<Collapse isOpen={isOpen} navbar>
 					<Nav className="ml-auto" navbar>
-						<React.Fragment>
-							<NavItem>
-								<Link href="/signin">
-									<NavLink style={{ cursor: 'pointer' }}>Sign in</NavLink>
-								</Link>
-							</NavItem>
-							<NavItem>
-								<Link href="/signup">
-									<NavLink style={{ cursor: 'pointer' }}>Sign up</NavLink>
-								</Link>
-							</NavItem>
-						</React.Fragment>
+						{!isAuth() && (
+							<React.Fragment>
+								<NavItem>
+									<Link href="/signin">
+										<NavLink style={{ cursor: 'pointer' }}>Sign in</NavLink>
+									</Link>
+								</NavItem>
+								<NavItem>
+									<Link href="/signup">
+										<NavLink style={{ cursor: 'pointer' }}>Sign up</NavLink>
+									</Link>
+								</NavItem>
+							</React.Fragment>
+						)}
+
+						{isAuth() && (
+							<React.Fragment>
+								<NavItem>
+									<Link href={isAuth().role === 2 ? '/client' : '/freelance'}>
+										<NavLink style={{ cursor: 'pointer' }}>{isAuth().name}'s Dashboard</NavLink>
+									</Link>
+								</NavItem>
+								<NavItem>
+									<NavLink
+										style={{ cursor: 'pointer' }}
+										onClick={() => signout(() => Router.replace('/signin'))}
+									>
+										Sign out
+									</NavLink>
+								</NavItem>
+							</React.Fragment>
+						)}
+
+						{isAuth() &&
+						isAuth().role === 1 && (
+							<React.Fragment>
+								<NavItem>
+									<Link href="/admin">
+										<NavLink style={{ cursor: 'pointer' }}>Admin's Dashboard</NavLink>
+									</Link>
+								</NavItem>
+								<NavItem>
+									<NavLink
+										style={{ cursor: 'pointer' }}
+										onClick={() => signout(() => Router.replace('/signin'))}
+									>
+										Sign out
+									</NavLink>
+								</NavItem>
+							</React.Fragment>
+						)}
 					</Nav>
 				</Collapse>
 			</Navbar>
