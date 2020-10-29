@@ -1,9 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../Layout';
 import Link from 'next/link';
+import Router from 'next/router';
 import { isAuth } from '../../actions/auth';
 
 function FreelancerDashboard() {
+	const [ loggedInUser, setLoggedInUser ] = useState('');
+
+	useEffect(() => {
+		if (isAuth()) {
+			setLoggedInUser(isAuth().username);
+		} else {
+			setLoggedInUser('');
+			Router.push('/');
+		}
+	}, []);
+
 	return (
 		<React.Fragment>
 			<div className="container-fluid mt-4">
@@ -11,7 +23,7 @@ function FreelancerDashboard() {
 					<div className="col-md-3">
 						<ul className="list-group">
 							<li className="list-group-item">
-								<Link href={`/freelancer/profile/${isAuth().username}`}>
+								<Link href={`/freelancer/profile/${loggedInUser}`}>
 									<a>Profile</a>
 								</Link>
 							</li>
