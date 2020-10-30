@@ -2,48 +2,50 @@ import fetch from 'isomorphic-fetch';
 import { API } from '../config';
 import { handleResponse } from './auth';
 
-// freelancer public profile action
-export const getFreelancerPublicProfile = (username, token) => {
-	return fetch(`${API}/user/freelancer/profile/${username}`, {
-		method: 'GET',
+// add skill action
+export const addSkill = (token, name) => {
+	return fetch(`${API}/skill/add`, {
+		method: 'POST',
 		headers: {
 			Accept: 'application/json',
-			Authorization: `Bearer ${token}`
-		}
-	})
-		.then((response) => {
-			return response.json();
-		})
-		.catch((err) => console.log(`====> ${err}`));
-};
-
-export const getProfile = (token) => {
-	return fetch(`${API}/user/profile`, {
-		method: 'GET',
-		headers: {
-			Accept: 'application/json',
-			// 'Content-Type': 'application/json', got rid of this because we're sending files (form-data)
-			Authorization: `Bearer ${token}`
-		}
-	})
-		.then((response) => {
-			return response.json();
-		})
-		.catch((err) => console.log(`====> ${err}`));
-};
-
-export const update = (token, user) => {
-	return fetch(`${API}/user/freelancer/profile/update`, {
-		method: 'PUT',
-		headers: {
-			Accept: 'application/json',
-			// 'Content-Type': 'application/json', got rid of this because we're sending files (form-data)
+			'Content-Type': 'application/json',
 			Authorization: `Bearer ${token}`
 		},
-		body: user
+		body: JSON.stringify(name)
 	})
 		.then((response) => {
 			handleResponse(response);
+			return response.json();
+		})
+		.catch((err) => console.log(`====> ${err}`));
+};
+
+export const getSkills = (token) => {
+	return fetch(`${API}/skills`, {
+		method: 'GET',
+		headers: {
+			Accept: 'application/json',
+			// 'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`
+		}
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((err) => console.log(`====> ${err}`));
+};
+
+export const removeSkill = (name, token) => {
+	return fetch(`${API}/skill/remove`, {
+		method: 'DELETE',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`
+		},
+		body: JSON.stringify(name)
+	})
+		.then((response) => {
 			return response.json();
 		})
 		.catch((err) => console.log(`====> ${err}`));

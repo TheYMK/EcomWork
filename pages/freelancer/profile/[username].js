@@ -65,6 +65,15 @@ function FreelancerProfile({ user, jobs, params }) {
 											<p className="text-muted">
 												Account created {moment(user.createdAt).fromNow()}
 											</p>
+
+											<div>
+												<a
+													className="btn btn-outline-success"
+													href="/freelancer/profile/update"
+												>
+													Update profile
+												</a>
+											</div>
 										</div>
 									</div>
 								</div>
