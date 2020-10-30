@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../../components/Layout';
+import { isAuth } from '../../../actions/auth';
 import { getFreelancerPublicProfile } from '../../../actions/user';
 import { API, DOMAIN, APP_NAME, FB_APP_ID } from '../../../config';
 import Cookies from 'cookies';
@@ -9,6 +10,12 @@ import ContactForm from '../../../components/form/ContactForm';
 import moment from 'moment';
 
 function FreelancerProfile({ user, jobs, params }) {
+	let currentlyLoggedInUser;
+
+	if (isAuth()) {
+		currentlyLoggedInUser = isAuth().username;
+	}
+
 	const head = () => (
 		<Head>
 			<title>
@@ -53,27 +60,35 @@ function FreelancerProfile({ user, jobs, params }) {
 									<div className="row">
 										<div className="col-md-4">
 											<img
-												src={`${DOMAIN}/static/images/ecomwork.jpg`}
+												src={`${API}/user/photo/${user.username}`}
 												className="img img-fluid img-thumbnail mb-3"
 												style={{ maxHeight: '200px', maxWidth: '100%' }}
 												alt="user profile"
 											/>
 										</div>
 										<div className="col-md-8">
-											{showIncompleteProfileMessage()}
+											{user.username === currentlyLoggedInUser ? (
+												showIncompleteProfileMessage()
+											) : (
+												''
+											)}
 											<h5>{user.name}</h5>
 											<p className="text-muted">
-												Account created {moment(user.createdAt).fromNow()}
+												Member since {moment(user.createdAt).fromNow()}
 											</p>
 
-											<div>
-												<a
-													className="btn btn-outline-success"
-													href="/freelancer/profile/update"
-												>
-													Update profile
-												</a>
-											</div>
+											{user.username === currentlyLoggedInUser ? (
+												<div>
+													<a
+														className="btn btn-outline-success"
+														href="/freelancer/profile/update"
+													>
+														Update profile
+													</a>
+												</div>
+											) : (
+												''
+											)}
 										</div>
 									</div>
 								</div>
