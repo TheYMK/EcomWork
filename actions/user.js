@@ -48,3 +48,18 @@ export const update = (token, user) => {
 		})
 		.catch((err) => console.log(`====> ${err}`));
 };
+
+export const deleteProfile = (token) => {
+	return fetch(`${API}/user/freelancer/profile/delete`, {
+		method: 'DELETE',
+		headers: {
+			Accept: 'application/json',
+			// 'Content-Type': 'application/json', got rid of this because we're sending files (form-data)
+			Authorization: `Bearer ${token}`
+		}
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((err) => console.log(`====> ${err}`));
+};
